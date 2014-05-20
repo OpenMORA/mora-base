@@ -1,0 +1,17 @@
+Authors of the OpenMORA project
+==================================
+
+Institutions:
+--------------------
+* Machine Perception and Intelligent Robotics (MAPIR) Lab, 
+   University of Malaga (Spain) [http://mapir.isa.uma.es/mapirwebsite/].
+* ARM group, University of Almeria.  
+
+Individuals:
+--------------------
+* Jose-Luis Blanco-Claraco  [http://www.ual.es/~jlblanco/]
+* Javier Gonzalez Monroy  <jgmonroy@isa.uma.es>
+* Carlos Sánchez  <carlossanchez@uma.es>
+* Mariano Jaimez Tarifa  <marianojt@uma.es>
+* Manuel Lopez Antequera  <mlopezantequera@gmail.com>
+
