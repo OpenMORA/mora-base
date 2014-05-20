@@ -17,8 +17,6 @@
 FIND_PACKAGE(MOOS REQUIRED)
 # Now we have MOOS_LIBRARIES defined.
 
-INCLUDE_DIRECTORIES("${MOOS_SOURCE_DIR}/Core")
-
 IF(WIN32)
 	SET(MOOS_LIBRARIES ${MOOS_LIBRARIES} wsock32)
 ENDIF()
@@ -59,38 +57,40 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 
 # --------------------- A macro to declare a MORA module -------------------
+# If "_dir_" is not provided, it'll default to current_dir/_name
 macro(DEFINE_MORA_PROGRAM _name_)
-	IF(EXISTS "${_name_}/CMakeLists.txt")
-		# Put these 2 commands here, not at the root CMake file to limit their effects:
-		INCLUDE_DIRECTORIES( ${MOOS_INCLUDE_DIRS}  )
-		LINK_DIRECTORIES( ${MOOS_LIBRARY_DIRS} )
+	SET(_dir_ ${ARGN})
+	IF("${_dir_}" STREQUAL "")
+		SET(_dir_ "${${PROJECT_NAME}_SOURCE_DIR}/${_name_}")
+	ENDIF()
+	# Put these 2 commands here, not at the root CMake file to limit their effects:
+	INCLUDE_DIRECTORIES( ${MOOS_INCLUDE_DIRS}  )
+	LINK_DIRECTORIES( ${MOOS_LIBRARY_DIRS} )
 
-		# By default, all modules are build, except those with
-		#  a BUILD_MODULE_*_DEFAULT variable defined.
-		set(aux_var_name_ "BUILD_MODULE_${_name_}_DEFAULT")
-		IF (DEFINED ${aux_var_name_})
-			set(_PROG_DEF "${${aux_var_name_}}")
-		else()
-			set(_PROG_DEF ON)
-		endif()
-		SET(BUILD_MODULE_${_name_} ${_PROG_DEF} CACHE BOOL "Build module ${_name_}")
-		IF(BUILD_MODULE_${_name_})
-		   add_subdirectory(${_name_})
-			if(TARGET ${_name_})
-				if(ENABLE_SOLUTION_FOLDERS)
-					set_target_properties(${_name_} PROPERTIES FOLDER "MORA modules")
-				else()
-					SET_TARGET_PROPERTIES(${_name_} PROPERTIES PROJECT_LABEL "(MORA-MODULE) mrpt-${name}")
-				endif()
-			endif()	   
-		ENDIF()
+	# By default, all modules are build, except those with
+	#  a BUILD_MODULE_*_DEFAULT variable defined.
+	set(aux_var_name_ "BUILD_MODULE_${_name_}_DEFAULT")
+	IF (DEFINED ${aux_var_name_})
+		set(_PROG_DEF "${${aux_var_name_}}")
+	else()
+		set(_PROG_DEF ON)
+	endif()
+	SET(BUILD_MODULE_${_name_} ${_PROG_DEF} CACHE BOOL "Build module ${_name_}")
+	IF(BUILD_MODULE_${_name_})
+	   add_subdirectory(${_dir_})
+		if(TARGET ${_name_})
+			if(ENABLE_SOLUTION_FOLDERS)
+				set_target_properties(${_name_} PROPERTIES FOLDER "MORA modules")
+			else()
+				SET_TARGET_PROPERTIES(${_name_} PROPERTIES PROJECT_LABEL "(MORA-MODULE) ${name}")
+			endif()
+		endif()	   
 	ENDIF()
 endmacro()
 
 
 # -------- Final vars ----------
 set(MORA_LIBS ${MOOS_LIBRARIES})
-INCLUDE_DIRECTORIES("${MOOS_SOURCE_DIR}/Core")
 INCLUDE_DIRECTORIES(@MORA_INCLUDE_DIRS@)
 
 set(MORA_FOUND TRUE CACHE BOOL "" FORCE)
