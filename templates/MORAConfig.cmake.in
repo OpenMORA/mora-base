@@ -82,10 +82,23 @@ macro(DEFINE_MORA_PROGRAM _name_)
 			if(ENABLE_SOLUTION_FOLDERS)
 				set_target_properties(${_name_} PROPERTIES FOLDER "MORA modules")
 			else()
-				SET_TARGET_PROPERTIES(${_name_} PROPERTIES PROJECT_LABEL "(MORA-MODULE) ${name}")
+				SET_TARGET_PROPERTIES(${_name_} PROPERTIES PROJECT_LABEL "(MORA-MODULE) ${_name_}")
 			endif()
 		endif()	   
 	ENDIF()
+endmacro()
+
+# -------- Macro to set common CMake options to MORA pkgs ----------
+macro(MORA_COMMON_CMAKE)
+	#dump libs and executables in the same place
+	IF (NOT "$ENV{MORA_EXECUTABLE_OUTPUT}" STREQUAL "")
+		SET(OUT_BINS "$ENV{MORA_EXECUTABLE_OUTPUT}")
+	ELSE()
+		SET(OUT_BINS "${${PROJECT_NAME}_BINARY_DIR}/bin")
+	ENDIF()
+	SET( LIBRARY_OUTPUT_PATH "${OUT_BINS}" CACHE PATH    "Output directory for libraries" )
+	SET( EXECUTABLE_OUTPUT_PATH "${OUT_BINS}" CACHE PATH "Output directory for executables" )
+	SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUT_BINS}" CACHE PATH "Output directory for executables" )
 endmacro()
 
 

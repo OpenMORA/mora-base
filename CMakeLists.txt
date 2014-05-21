@@ -17,9 +17,14 @@ cmake_policy(SET CMP0003 NEW)  # Don't mix rel & abs lib paths
 cmake_policy(SET CMP0005 NEW)  # Autoescape -D definitions
 
 #dump libs and executables in the same place
-SET( LIBRARY_OUTPUT_PATH ${${PROJECT_NAME}_BINARY_DIR}/bin CACHE PATH    "Output directory for libraries" )
-SET( EXECUTABLE_OUTPUT_PATH ${${PROJECT_NAME}_BINARY_DIR}/bin CACHE PATH "Output directory for executables" )
-SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${${PROJECT_NAME}_BINARY_DIR}/bin CACHE PATH "Output directory for executables" )
+IF (NOT "$ENV{MORA_EXECUTABLE_OUTPUT}" STREQUAL "")
+	SET(OUT_BINS "$ENV{MORA_EXECUTABLE_OUTPUT}")
+ELSE()
+	SET(OUT_BINS "${${PROJECT_NAME}_BINARY_DIR}/bin")
+ENDIF()
+SET( LIBRARY_OUTPUT_PATH "${OUT_BINS}" CACHE PATH    "Output directory for libraries" )
+SET( EXECUTABLE_OUTPUT_PATH "${OUT_BINS}" CACHE PATH "Output directory for executables" )
+SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUT_BINS}" CACHE PATH "Output directory for executables" )
 
 # Group projects in "folders"
 IF (CMAKE_VERSION VERSION_GREATER "2.8.0")

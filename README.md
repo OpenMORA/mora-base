@@ -18,3 +18,11 @@ Compile with CMake:
     cmake ..
     make
 
+
+## Environment variables
+
+The following vars can be defined to affect the configuration of all MORA packages:
+
+  * MORA_EXECUTABLE_OUTPUT: If defined, will override CMake's default EXECUTABLE_OUTPUT_PATH. 
+
+
