@@ -99,6 +99,13 @@ macro(MORA_COMMON_CMAKE)
 	SET( LIBRARY_OUTPUT_PATH "${OUT_BINS}" CACHE PATH    "Output directory for libraries" )
 	SET( EXECUTABLE_OUTPUT_PATH "${OUT_BINS}" CACHE PATH "Output directory for executables" )
 	SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUT_BINS}" CACHE PATH "Output directory for executables" )
+	
+	# Solution folders:
+	SET(ENABLE_SOLUTION_FOLDERS ON CACHE BOOL "Group projects under virtual folders of the compiler IDE (e.g. VisualStudio)")
+	if (ENABLE_SOLUTION_FOLDERS)
+	  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+	  set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "CMakeTargets")
+	endif()	
 endmacro()
 
 
