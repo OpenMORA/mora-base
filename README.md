@@ -40,10 +40,14 @@ TODO: Create list of pkgs? Automated script to download them?
 Clone other MORA pkgs. 
 Build them with:
 
-    mora-build.py
+    mora-build.py               # Builds pkg at current dir
+    mora-build.py sensors-pkg   # Builds specific pkg
+    mora-build.py *-pkg
     
 ## Environment variables
 The following vars can be defined to affect the configuration of all MORA packages (they are set automatically by `mora-setup.sh` in Linux):
 
   * `MORA_PATH`: List of directories containing OpenMORA pkgs. Separator is ";" in Windows, ":" in unices. Must point to the *parent* directory of MORA pkgs, such that  `$MORA_PATH/mora-base/` exists.
   * `MORA_EXECUTABLE_OUTPUT`: If defined, will override CMake's default EXECUTABLE_OUTPUT_PATH. Can be used to put all executables into one single directory.
+  * `MORA_CMAKE_GENERATOR`: Must be set in Windows to the desired CMake generator, e.g. "Visual Studio 10"
+
