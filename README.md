@@ -32,7 +32,7 @@ Compile with CMake:
 ## Setting up environment
 In Linux, add this line to ~./basrc
 
-    source [path to mora-base]/scipts/mora-setup.sh
+    source [path to mora-base]/scripts/mora-setup.sh
 
 ## Building MORA pkgs
 TODO: Create list of pkgs? Automated script to download them? 

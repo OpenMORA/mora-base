@@ -13,6 +13,7 @@ import re
 import string
 import platform
 from subprocess import call
+import morautils
 
 #------   MAIN   -------
 def main():
@@ -24,27 +25,8 @@ def main():
 			lstToBuild.append(os.path.abspath(p))
 
 	# Locate the mora-base pkg, which contains the core libs:
-	if not 'MORA_PATH' in os.environ:
-		print('**ERROR** Environment variable MORA_PATH not set')
-		sys.exit(1)
-
-	mora_paths= os.environ['MORA_PATH'];
-	if platform.system()=="Windows":
-		sPathDelim = ";"
-	else:
-		sPathDelim = ":"
-	
-	morabase_dir="";
-	for p in mora_paths.split(sPathDelim):
-		tstPath = os.path.normpath(p + "/mora-base")
-		if os.path.exists(tstPath):
-			morabase_dir = tstPath
-
-	if (len(morabase_dir)==0) or (not os.path.exists(morabase_dir)):
-		print("Couldn't detect mora-base in MORA_PATH!!")
-		sys.exit(1)
+	morabase_dir = morautils.get_morabase_dir()
 	morabase_build_dir = os.path.normpath(morabase_dir + "/build")
-	
 
 	# Loop for each pkg to be built:
 	for p in lstToBuild:
@@ -52,7 +34,9 @@ def main():
 		pkg_name = os.path.basename(pkg_dir) 
 		print("[Building] %s @ %s" % (pkg_name, pkg_dir) )
 		assert os.path.exists(pkg_dir)  # Make sure the dir exists
-		assert os.path.exists(os.path.normpath(pkg_dir+'/CMakeLists.txt'))
+		if not os.path.exists(os.path.normpath(pkg_dir+'/CMakeLists.txt')):
+			print("Directory '%s' doesn't contain a CMakeLists.txt file! Is it a MORA pkg?" % pkg_dir)
+			sys.exit(1)
 		# Build dir for CMake:
 		build_dir = os.path.normpath( pkg_dir + "/build" )
 		if not os.path.exists(build_dir):
