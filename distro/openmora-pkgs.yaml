@@ -1,0 +1,29 @@
+# List of OpenMORA pkgs for usage with automated scripts
+# 
+# Format: One entry per pkg, with these fields: 
+#  - "git-url": Mandatory. The GIT repo
+#  - "git-version": Optional. The branch to use (default="master")
+#
+
+mora-base: 
+  git-url: https://github.com/OpenMORA/mora-base.git
+  git-version: master
+
+dataset-tools-pkg:
+  git-url: https://github.com/OpenMORA/dataset-tools-pkg.git
+
+nav-slam-pkg:
+  git-url: https://github.com/OpenMORA/nav-slam-pkg.git
+
+sensors-pkg:
+  git-url: https://github.com/OpenMORA/sensors-pkg.git
+
+sim-pkg: 
+  git-url: https://github.com/OpenMORA/sim-pkg.git
+
+ual-ecar-pkg: 
+  git-url: https://github.com/OpenMORA/ual-ecar-pkg.git
+
+vision-pkg:
+  git-url: https://github.com/OpenMORA/vision-pkg.git
+

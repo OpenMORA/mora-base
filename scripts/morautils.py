@@ -2,9 +2,7 @@
 #
 # Part of OpenMora - https://github.com/OpenMORA
 
-import os
-import sys
-import string
+import os, sys, string
 import platform
 
 def get_mora_paths():
@@ -38,4 +36,22 @@ def get_morabase_dir():
 		sys.exit(1)
 	return morabase_dir
 	
+import sys, math
+
+def progress(percent):
+	''' source: http://gunslingerc0de.wordpress.com/2010/08/13/python-command-line-progress-bar/ '''
+	width = 80
+	marks = math.floor(width * (percent / 100.0))
+	spaces = math.floor(width - marks)
+
+	loader = '[' + ('=' * int(marks)) + (' ' * int(spaces)) + ']'
+
+	if percent >= 100:
+		percent = 100
+	sys.stdout.write("%s %d%%\r" % (loader, percent))
+	if percent >= 100:
+		pass
+		sys.stdout.write("\n")
+	sys.stdout.flush()
+
 

@@ -6,11 +6,13 @@ OpenMORA core tools and common libraries: core-moos, essential-moos and scripts
   * A C++ compiler
   * [CMake](http://www.cmake.org/)
   * [mrpt](http://www.mrpt.org/)
-  * Python CLI ([Windows download](https://www.python.org/download/windows))
+  * Python CLI ([Windows download](https://www.python.org/download/windows)) with the modules:
+    * YAML
+    * Git
 
 In Ubuntu, run: 
 
-    sudo apt-get install build-essential cmake python
+    sudo apt-get install build-essential cmake python python-yaml python-git
 
 ## Download and compile
 Create an empty directory for OpenMORA packages:
@@ -34,8 +36,12 @@ In Linux, add this line to ~./basrc
 
     source [path to mora-base]/scripts/mora-setup.sh
 
-## Building MORA pkgs
-TODO: Create list of pkgs? Automated script to download them? 
+## Download MORA pkgs
+To download all publicly listed pkgs, simply run: 
+
+    mora-pull.py --all
+
+## Building pkgs
 
 Clone other MORA pkgs. 
 Build them with:
