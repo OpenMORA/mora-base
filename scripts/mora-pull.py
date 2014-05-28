@@ -11,20 +11,10 @@
 import os
 import sys
 import string
-from subprocess import call
+import subprocess
 import morautils
 import argparse
 import yaml
-import git 
-
-# Aux class
-class GitProgress(git.RemoteProgress):
-	op_code = None
-
-	def update(self, op_code, cur_count, max_count=None, message=''):
-		if isinstance(max_count, str) and max_count:
-			morautils.progress(float(cur_count)/float(max_count)*100)
-
 
 #------   MAIN   -------
 def main():
@@ -52,7 +42,7 @@ def main():
 
 	# Go thru all pkgs:
 	for pkg in distro:
-		print("Processing pkg: " + pkg)
+		print("# Processing pkg: " + pkg)
 		sPkgDir = os.path.normpath( pkgs_root+"/"+pkg )
 		if not os.path.exists(sPkgDir):
 			# Non existing path ----------------------
@@ -65,15 +55,30 @@ def main():
 				# Git clone:
 				git_url = distro[pkg]["git-url"]
 				print("  * Cloning from: " + git_url )
-				# Do a git clone:
-				git.Repo.clone_from(git_url, sPkgDir)
+				os.chdir(sPkgDir)
+				git_args = ["git", "clone",git_url]
+				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+				if 0!=subprocess.call(git_args):
+					print("** ERROR** Last command failed!!")
 		else:
 			# Already existing path ----------------------
 			print("  * Pulling updates...")
-			repo = git.Repo(sPkgDir)
-			o = repo.remotes.origin
-			o.pull( progress=GitProgress() )
+			# Git pull:
+			os.chdir(sPkgDir)
+			git_args = ["git", "pull"]
+			print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+			if 0!=subprocess.call(git_args):
+				print("** ERROR** Last command failed!!")
 
+		# Process optional flag "git-version"
+		if 'git-version' in distro[pkg]:
+			sGitBranch = distro[pkg]['git-version']
+			print("  * Checking out '%s'" % sGitBranch)
+			git_args = ["git", "checkout",sGitBranch]
+			print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+			if 0!=subprocess.call(git_args):
+				print("** ERROR** Last command failed!!")
+			
 
 if __name__ == "__main__":
 	sys.exit(main())
