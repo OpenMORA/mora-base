@@ -45,10 +45,10 @@ def main():
 		# Build dir for CMake:
 		build_dir = os.path.normpath( pkg_dir + "/build" )
 		if not os.path.exists(build_dir):
-			print("    Mkdir: %s" % build_dir )
+			print("  * Mkdir: %s" % build_dir )
 			os.mkdir(build_dir)
 		else:
-			print("    Existed: %s" % build_dir )
+			print("  * Existed: %s" % build_dir )
 			
 		# chdir & run cmake:
 		os.chdir(build_dir)
@@ -61,11 +61,11 @@ def main():
 		# Help CMake to locate MORA:
 		cmake_args.append("-DMORA_DIR=" + morabase_build_dir)
 
-		print("    Invoking cmake with args:\n    => %s" % '\n    => '.join(map(str, cmake_args)))
+		print("  * Invoking cmake: %s" % ' '.join(map(str, cmake_args)))
 		call(cmake_args)
 		
 		# Compile:
-		print("    Compiling:")
+		print("  * Compiling:")
 		# Call nmake, msbuild or whatever via CMake:
 		make_args=["cmake","--build",build_dir,"--config","Release"];
 		call(make_args)

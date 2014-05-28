@@ -17,7 +17,9 @@ Usage:
 	
 	#define MORA_APP_CLASS         CMyApp     
 	#define MORA_APP_NAME          "MyApp"    // Default MOOSApp app name
-	
+	// Optional: defaults to MORA_APP_CLASS.h
+	// #define MORA_APP_HEADER_FILENAME CMyApp.h
+
 	#include <mora_main.h>
 
 -----------------------------------------------------------------------*/
@@ -27,9 +29,22 @@ Usage:
 // file via a macro and generate a dynamic #include, but that would
 // require additional -I flags, so I discarded the idea.
 
-
+// Important: Include these *before* the user code. Seems to be needed to avoid winsock headers conflicts in Windows:
 #include "MOOS/libMOOS/MOOSLib.h"
 #include "MOOS/libMOOS/Utils/CommandLineParser.h"
+
+// Dynamically-generate the #include of the user app class
+#ifndef MORA_APP_HEADER_FILENAME
+// Default: #include "MORA_APP_CLASS.h"
+#	define MORA_APP_HEADER_FILENAME MORA_APP_CLASS.h
+#endif 
+
+#define QUOTEME(x) QUOTEME_1(x)
+#define QUOTEME_1(x) #x
+#define INCLUDE_FILE(x) QUOTEME(x)
+
+#include INCLUDE_FILE(MORA_APP_HEADER_FILENAME)
+
 
 int main(int argc ,char * argv[])
 {
