@@ -3,8 +3,8 @@
 # Download all MORA modules and/or pull the most recent changes from 
 # their repositories. Default workspace is the parent dir of mora-base path.
 #  Usage:
-#   mora-pull.py --all  # Use on bootstrap: download all pkgs
-#   mora-pull.py        # Synch (update/pull) changes of all pkgs   
+#   mora-pull.py --all  # Use on bootstrap: download all known pkgs (see distro file)
+#   mora-pull.py        # Synch (update/pull) changes of all known pkgs (see distro file)
 #
 # Part of OpenMora - https://github.com/OpenMORA
 
@@ -36,7 +36,7 @@ def main():
 	assert os.path.exists(pkgs_root + "/mora-base")
 
 	# Parse distro file:
-	fil = file(sDistroFile, 'r') 
+	fil = open(sDistroFile, 'r') 
 	distro = yaml.load(fil)
 	#print distro
 

@@ -13,16 +13,21 @@ import re
 import string
 import platform
 from subprocess import call
+import glob
 import morautils
 
 #------   MAIN   -------
 def main():
 	lstToBuild = []
+	# No arguments: Build current dir:
 	if (len(sys.argv)==1):
 		lstToBuild.append(os.path.abspath(os.getcwd()))
 	else:
+		# List of directories:
 		for p in sys.argv[1:]:
-			lstToBuild.append(os.path.abspath(p))
+			# Support expanding wildcard expressions (for Windows):
+			for fil in glob.glob(p):
+				lstToBuild.append(os.path.abspath(fil))
 
 	# Locate the mora-base pkg, which contains the core libs:
 	morabase_dir = morautils.get_morabase_dir()
@@ -61,8 +66,8 @@ def main():
 		
 		# Compile:
 		print("    Compiling:")
-		# TODO: call nmake or msbuild in Windows:
-		make_args=["make"];
+		# Call nmake, msbuild or whatever via CMake:
+		make_args=["cmake","--build",build_dir,"--config","Release"];
 		call(make_args)
 
 
