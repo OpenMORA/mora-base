@@ -38,6 +38,14 @@ Compile with CMake:
 In Linux, add this line to ~./basrc
 
     source [path to mora-base]/scripts/mora-setup.sh
+    
+In Windows, set these environment vars:
+
+  * `MORA_PATH`: List of directories containing OpenMORA pkgs. Separator is ";" in Windows, ":" in unices. Must point to the *parent* directory of MORA pkgs, such that  `$MORA_PATH/mora-base/` exists.
+  * `MORA_CMAKE_GENERATOR`: Must be set in Windows to the desired CMake generator, e.g. "Visual Studio 10 Win64"
+  * Manually add `[MORA-BASE_PATH]/scripts/` to the `PATH` env var.
+  * `MORA_EXECUTABLE_OUTPUT`: (Optional) If defined, will override CMake's default `EXECUTABLE_OUTPUT_PATH`. Can be used to put all executables into one single directory.
+    
 
 ## Download & build MORA pkgs
 To download all publicly listed pkgs, simply run: 
@@ -50,11 +58,3 @@ Build by calling CMake for each directory, or do it automatically with:
     mora-build.py sensors-pkg   # Builds specific pkg
     mora-build.py *-pkg
     
-## Environment variables
-The following vars can be defined to affect the configuration of all MORA packages (they are set automatically by `mora-setup.sh` in Linux):
-
-  * `MORA_PATH`: List of directories containing OpenMORA pkgs. Separator is ";" in Windows, ":" in unices. Must point to the *parent* directory of MORA pkgs, such that  `$MORA_PATH/mora-base/` exists.
-  * `MORA_EXECUTABLE_OUTPUT`: If defined, will override CMake's default `EXECUTABLE_OUTPUT_PATH`. Can be used to put all executables into one single directory.
-  * `MORA_CMAKE_GENERATOR`: Must be set in Windows to the desired CMake generator, e.g. "Visual Studio 10 Win64"
-  * In Windows: Manually add `[MORA-BASE_PATH]/scripts/` to the PATH env var.
-
