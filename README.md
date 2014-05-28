@@ -7,11 +7,15 @@ OpenMORA core tools and common libraries: core-moos, essential-moos and scripts
   * [CMake](http://www.cmake.org/)
   * [mrpt](http://www.mrpt.org/)
   * Python CLI ([Windows download](https://www.python.org/download/windows)) with the modules:
-    * YAML
+    * YAML ([Windows download](http://pyyaml.org/wiki/PyYAML))
 
 In Ubuntu, run: 
 
     sudo apt-get install build-essential cmake python python-yaml
+    
+In Windows: 
+  * Remember to add Git, CMake and Python to the system PATH env var.
+  * Manually set the environment vars described at the end of this page.
 
 ## Download and compile
 Create an empty directory for OpenMORA packages:
@@ -35,15 +39,12 @@ In Linux, add this line to ~./basrc
 
     source [path to mora-base]/scripts/mora-setup.sh
 
-## Download MORA pkgs
+## Download & build MORA pkgs
 To download all publicly listed pkgs, simply run: 
 
     mora-pull.py --all
 
-## Building pkgs
-
-Clone other MORA pkgs. 
-Build them with:
+Build by calling CMake for each directory, or do it automatically with:
 
     mora-build.py               # Builds pkg at current dir
     mora-build.py sensors-pkg   # Builds specific pkg
@@ -54,5 +55,6 @@ The following vars can be defined to affect the configuration of all MORA packag
 
   * `MORA_PATH`: List of directories containing OpenMORA pkgs. Separator is ";" in Windows, ":" in unices. Must point to the *parent* directory of MORA pkgs, such that  `$MORA_PATH/mora-base/` exists.
   * `MORA_EXECUTABLE_OUTPUT`: If defined, will override CMake's default `EXECUTABLE_OUTPUT_PATH`. Can be used to put all executables into one single directory.
-  * `MORA_CMAKE_GENERATOR`: Must be set in Windows to the desired CMake generator, e.g. "Visual Studio 10"
+  * `MORA_CMAKE_GENERATOR`: Must be set in Windows to the desired CMake generator, e.g. "Visual Studio 10 Win64"
+  * In Windows: Manually add `[MORA-BASE_PATH]/scripts/` to the PATH env var.
 
