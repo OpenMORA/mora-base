@@ -34,8 +34,10 @@
 #include <mrpt/system/filesystem.h>
 #include <mrpt/synch/CCriticalSection.h>
 
-/**  A layer over CMOOSApp that adds some extra funcionality:
+/**  A layer over CMOOSApp that adds some extra functionality:
   *  - m_ini: A MRPT-like interface to read the own section of the mission file.
+  *  - m_Comms_delayed: Like m_comms, but delaying the actual notifications until the call to IterateBase(), which typically is called at Iterate()
+  *  - AddMOOSVariable_OpenMORA(), etc: Like AddMOOSVariable(), etc. but with simplified interface for registering and allowing reading the first value of the var even if it was old when the module starts.
   *
   */
 class COpenMORAApp: public CMOOSApp
@@ -176,12 +178,12 @@ public:
     	CDelayedMOOSCommClient::TList lst;
 		CDelayedMOOSCommClient::TList2 milst;
 
-		
+
 		m_Comms_delayed.getBufAndClear(lst);
     	for (CDelayedMOOSCommClient::TList::const_iterator it=lst.begin();it!=lst.end();++it)
 			m_Comms.Notify(it->first,it->second);
 
-		
+
     	m_Comms_delayed.getBufAndClear(milst);
     	for (CDelayedMOOSCommClient::TList2::const_iterator it=milst.begin();it!=milst.end();++it)
 			m_Comms.Notify(it->first,it->second);
