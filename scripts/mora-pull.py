@@ -50,13 +50,10 @@ def main():
 				print("  * Pkg not found, skipping (rerun with --all to download it)")
 			else:
 				print("  * Pkg not found, will clone it now (-all flag)")
-				print("  * Mkdir: %s" % sPkgDir )
-				os.mkdir(sPkgDir)
 				# Git clone:
 				git_url = distro[pkg]["git-url"]
 				print("  * Cloning from: " + git_url )
-				os.chdir(sPkgDir)
-				git_args = ["git", "clone",git_url]
+				git_args = ["git", "clone",git_url,sPkgDir]
 				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
 				if 0!=subprocess.call(git_args):
 					print("** ERROR** Last command failed!!")
@@ -72,6 +69,7 @@ def main():
 
 		# Process optional flag "git-version"
 		if 'git-version' in distro[pkg]:
+			os.chdir(sPkgDir)
 			sGitBranch = distro[pkg]['git-version']
 			print("  * Checking out '%s'" % sGitBranch)
 			git_args = ["git", "checkout",sGitBranch]
