@@ -38,6 +38,7 @@ def main():
 	# Parse distro file:
 	fil = open(sDistroFile, 'r') 
 	distro = yaml.load(fil)
+	fil.close()
 	#print distro
 
 	# Go thru all pkgs:
