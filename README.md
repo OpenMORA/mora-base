@@ -47,6 +47,8 @@ In Windows, set these environment vars:
     
 
 ## Download & build MORA pkgs
+Note that the following commands work on both *Windows* and *Linux*.
+
 To download all publicly listed pkgs, simply run: 
 
     mora-pull --all
