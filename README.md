@@ -15,7 +15,6 @@ In Ubuntu, run:
     
 In Windows: 
   * Remember to add Git, CMake and Python to the system PATH env var.
-  * Manually set the environment vars described at the end of this page.
 
 ## Download and compile
 Create an empty directory for OpenMORA packages:
@@ -50,11 +49,10 @@ In Windows, set these environment vars:
 ## Download & build MORA pkgs
 To download all publicly listed pkgs, simply run: 
 
-    mora-pull.py --all
+    mora-pull --all
 
 Build by calling CMake for each directory, or do it automatically with:
 
-    mora-build.py               # Builds pkg at current dir
-    mora-build.py sensors-pkg   # Builds specific pkg
-    mora-build.py *-pkg
+    mora-build            # Builds pkg at current dir
+    mora-build ual*-pkg   # Builds specific pkgs
     
