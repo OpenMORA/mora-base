@@ -1,2 +1,1 @@
-@echo off
-python %~dp0\mora-build %*
+@python %~dp0\%~n0 %*

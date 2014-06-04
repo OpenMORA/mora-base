@@ -56,3 +56,7 @@ Build by calling CMake for each directory, or do it automatically with:
     mora-build            # Builds pkg at current dir
     mora-build ual*-pkg   # Builds specific pkgs
     
+Move into the directory of some module with `mora-cd`
+
+    mora-cd mora-base 
+

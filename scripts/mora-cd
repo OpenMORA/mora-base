@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# cd (change dir) into the given module. Default workspace is the parent dir of mora-base path.
+#  Usage:
+#   mora-cd                 # goes to default modules workspace directory
+#   mora-cd [MODULE_NAME]   # goes to module dir
+#
+# Part of OpenMora - https://github.com/OpenMORA
+
+cd `python impl_mora-cd.py`

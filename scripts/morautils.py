@@ -55,3 +55,28 @@ def progress(percent):
 	sys.stdout.flush()
 
 
+def get_pkgs_root():
+	'''Returns the path to the parent directory of mora-base'''
+	morabase_dir = get_morabase_dir()
+	pkgs_root = os.path.dirname(morabase_dir)
+	return pkgs_root
+	
+	
+def read_distro_file():
+	'''Returns the yaml contents of the distro file'''
+	
+	morabase_dir = get_morabase_dir()
+	pkgs_root = os.path.dirname(morabase_dir)
+	
+	sDistroFile = os.path.normpath( morabase_dir + "/distro/openmora-pkgs.yaml")
+	assert os.path.exists(sDistroFile)
+
+	assert os.path.exists(pkgs_root + "/mora-base")
+
+	# Parse distro file:
+	fil = open(sDistroFile, 'r') 
+	distro = yaml.load(fil)
+	fil.close()
+	#print distro
+	return distro
+

@@ -1,2 +1,1 @@
-@echo off
-python %~dp0\mora-pull %*
+@python %~dp0\%~n0 %*
