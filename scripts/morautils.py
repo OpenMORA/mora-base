@@ -4,6 +4,7 @@
 
 import os, sys, string
 import platform
+import yaml
 
 def get_mora_paths():
 	""" Returns a list of paths with MORA modules, from the env var MORA_PATH
