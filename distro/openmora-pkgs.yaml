@@ -21,11 +21,26 @@ sensors-pkg:
 sim-pkg: 
   git-url: https://github.com/OpenMORA/sim-pkg.git
 
-ual-ecar-pkg: 
-  git-url: https://github.com/OpenMORA/ual-ecar-pkg.git
-
 vision-pkg:
   git-url: https://github.com/OpenMORA/vision-pkg.git
 
 viz-pkg:  
   git-url: https://github.com/OpenMORA/viz-pkg.git
+
+ual-ecar-pkg: 
+  git-url: https://github.com/OpenMORA/ual-ecar-pkg.git  
+
+uma-hw-pkg:
+  git-url: https://github.com/OpenMORA/uma-hw-pkg.git
+
+uma-nav-slam-pkg:
+  git-url: https://github.com/OpenMORA/uma-nav-slam-pkg.git
+
+uma-olfaction-pkg:
+  git-url: https://github.com/OpenMORA/uma-olfaction-pkg.git
+
+uma-giraff-pkg:
+  git-url: https://github.com/OpenMORA/uma-giraff-pkg.git
+
+uma-utils-pkg:
+  git-url: https://github.com/OpenMORA/uma-utils-pkg.git
