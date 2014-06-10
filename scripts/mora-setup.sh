@@ -4,6 +4,9 @@
 MORA_SCRIPTS_DIR="$( dirname "$(readlink -e "${BASH_SOURCE[0]}")" && echo X)" && MORA_SCRIPTS_DIR="${MORA_SCRIPTS_DIR%$'\nX'}"
 #echo "MORA_SCRIPTS_DIR: $MORA_SCRIPTS_DIR"
 
+# Changing current directory MUST be done as a "source" command, not by invoking the shell script:
+alias mora-cd="source $MORA_SCRIPTS_DIR/impl_mora-cd.sh"
+
 # Parent dir:
 MORABASE_DIR="$(dirname $MORA_SCRIPTS_DIR)"
 # Parent dir:

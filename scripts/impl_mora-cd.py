@@ -4,6 +4,7 @@
 #
 # Part of OpenMora - https://github.com/OpenMORA
 
+from __future__ import print_function
 import os
 import sys
 import string
