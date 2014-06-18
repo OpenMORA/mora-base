@@ -77,6 +77,7 @@ macro(DEFINE_MORA_PROGRAM _name_)
 	endif()
 	SET(BUILD_MODULE_${_name_} ${_PROG_DEF} CACHE BOOL "Build module ${_name_}")
 	IF(BUILD_MODULE_${_name_})
+	   INCLUDE_DIRECTORIES(${_dir_}) # This is required by the macros in main.cpp to locate the app's .h files
 	   add_subdirectory(${_dir_})
 		if(TARGET ${_name_})
 			if(ENABLE_SOLUTION_FOLDERS)
