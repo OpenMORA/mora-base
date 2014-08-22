@@ -34,7 +34,7 @@ Compile with CMake:
     make
 
 ## Setting up environment
-In Linux, add this line to ~./basrc
+In Linux, add this line to ~./bashrc
 
     source [path to mora-base]/scripts/mora-setup.sh
     
