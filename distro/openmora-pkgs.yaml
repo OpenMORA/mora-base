@@ -3,6 +3,7 @@
 # Format: One entry per pkg, with these fields: 
 #  - "git-url": Mandatory. The GIT repo
 #  - "git-version": Optional. The branch to use (default="master")
+#   E.g: git-version: master
 #
 
 mora-base: 
@@ -44,3 +45,7 @@ uma-giraff-pkg:
 
 uma-utils-pkg:
   git-url: https://github.com/OpenMORA/uma-utils-pkg.git
+  
+multivehicle_2d_simulator:
+  git-url: https://github.com/ual-arm-ros-pkg/multivehicle_2d_simulator.git
+  

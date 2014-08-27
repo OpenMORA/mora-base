@@ -37,40 +37,43 @@ def main():
 	for pkg in distro:
 		print("# Processing pkg: " + pkg)
 		sPkgDir = os.path.normpath( pkgs_root+"/"+pkg )
-		if not os.path.exists(sPkgDir):
-			# Non existing path ----------------------
-			if not args.all:
-				print("  * Pkg not found, skipping (rerun with --all to download it)")
+		try:
+			if not os.path.exists(sPkgDir):
+				# Non existing path ----------------------
+				if not args.all:
+					print("  * Pkg not found, skipping (rerun with --all to download it)")
+				else:
+					print("  * Pkg not found, will clone it now (--all flag)")
+					# Git clone:
+					git_url = distro[pkg]["git-url"]
+					print("  * Cloning from: " + git_url )
+					git_args = ["git", "clone",git_url,sPkgDir]
+					print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+					if 0!=subprocess.call(git_args):
+						print("** ERROR** Last command failed!!")
 			else:
-				print("  * Pkg not found, will clone it now (--all flag)")
-				# Git clone:
-				git_url = distro[pkg]["git-url"]
-				print("  * Cloning from: " + git_url )
-				git_args = ["git", "clone",git_url,sPkgDir]
+				# Already existing path ----------------------
+				print("  * Pulling updates...")
+				# Git pull:
+				os.chdir(sPkgDir)
+				git_args = ["git", "pull"]
 				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
 				if 0!=subprocess.call(git_args):
 					print("** ERROR** Last command failed!!")
-		else:
-			# Already existing path ----------------------
-			print("  * Pulling updates...")
-			# Git pull:
-			os.chdir(sPkgDir)
-			git_args = ["git", "pull"]
-			print("  * Invoking: %s" % ' '.join(map(str, git_args)))
-			if 0!=subprocess.call(git_args):
-				print("** ERROR** Last command failed!!")
 
-		# Process optional flag "git-version"
-		if 'git-version' in distro[pkg]:
-			os.chdir(sPkgDir)
-			sGitBranch = distro[pkg]['git-version']
-			print("  * Checking out '%s'" % sGitBranch)
-			git_args = ["git", "checkout",sGitBranch]
-			print("  * Invoking: %s" % ' '.join(map(str, git_args)))
-			if 0!=subprocess.call(git_args):
-				print("** ERROR** Last command failed!!")
+			# Process optional flag "git-version"
+			if 'git-version' in distro[pkg]:
+				os.chdir(sPkgDir)
+				sGitBranch = distro[pkg]['git-version']
+				print("  * Checking out '%s'" % sGitBranch)
+				git_args = ["git", "checkout",sGitBranch]
+				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+				if 0!=subprocess.call(git_args):
+					print("** ERROR** Last command failed!!")
+		except Exception as e:
+			print("(ERROR: ",type(e),"): ", e)
 			
-
+			
 if __name__ == "__main__":
 	sys.exit(main())
 
