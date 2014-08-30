@@ -46,6 +46,6 @@ uma-giraff-pkg:
 uma-utils-pkg:
   git-url: https://github.com/OpenMORA/uma-utils-pkg.git
   
-multivehicle_2d_simulator:
-  git-url: https://github.com/ual-arm-ros-pkg/multivehicle_2d_simulator.git
+multivehicle-simulator:
+  git-url: https://github.com/ual-arm-ros-pkg/multivehicle-simulator.git
   
