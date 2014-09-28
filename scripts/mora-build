@@ -15,19 +15,52 @@ import platform
 from subprocess import call
 import glob
 import morautils
+import argparse
+import pprint
+import shutil
 
 #------   MAIN   -------
 def main():
+	# Parse args:
+	parser = argparse.ArgumentParser(description='Builds one or more MORA modules.')
+	parser.add_argument(
+		'package', metavar='PKGDIR', type=str, nargs='*',
+		help='names of packages to build')
+	parser.add_argument(
+		'--rebuild', dest='rebuild', action='store_true',
+		help='forces a rebuild')
+	parser.add_argument(
+		'--all', dest='all', action='store_true',
+		help='builds all packages in the repository')
+
+	args = parser.parse_args()
+
+	# Determine which pkgs to build ------------
 	lstToBuild = []
-	# No arguments: Build current dir:
-	if (len(sys.argv)==1):
-		lstToBuild.append(os.path.abspath(os.getcwd()))
+
+	if (args.all):
+		# Locate the mora-base pkg, which contains the distro file:
+		pkgs_root = morautils.get_pkgs_root()
+		print("Using MORA root dir: " + pkgs_root)
+
+		# Get distro info:
+		distro = morautils.read_distro_file()
+		for pkg in distro:
+			sPkgDir = os.path.normpath( pkgs_root+"/"+pkg )
+			lstToBuild.append(sPkgDir)
 	else:
-		# List of directories:
-		for p in sys.argv[1:]:
-			# Support expanding wildcard expressions (for Windows):
-			for fil in glob.glob(p):
-				lstToBuild.append(os.path.abspath(fil))
+		# No arguments: Build current dir:
+		if (not args.package):
+			lstToBuild.append(os.path.abspath(os.getcwd()))
+		else:
+			# List of directories:
+			for p in args.package:
+				# Support expanding wildcard expressions (for Windows):
+				p_glob = glob.glob(p)
+				for fil in p_glob:
+					lstToBuild.append(os.path.abspath(fil))
+				if not p_glob:
+					lstToBuild.append(os.path.abspath(p))
 
 	# Locate the mora-base pkg, which contains the core libs:
 	morabase_dir = morautils.get_morabase_dir()
@@ -40,10 +73,15 @@ def main():
 		print("[Building] %s @ %s" % (pkg_name, pkg_dir) )
 		assert os.path.exists(pkg_dir)  # Make sure the dir exists
 		if not os.path.exists(os.path.normpath(pkg_dir+'/CMakeLists.txt')):
-			print("Directory '%s' doesn't contain a CMakeLists.txt file! Is it a MORA pkg?" % pkg_dir)
-			sys.exit(1)
+			print("[SKIP] Directory '%s' doesn't contain a CMakeLists.txt file! Is it a MORA pkg?" % pkg_dir)
+			continue
 		# Build dir for CMake:
 		build_dir = os.path.normpath( pkg_dir + "/build" )
+
+		if args.rebuild:
+			print("  * FORCE REBULD: Removing previous contents in %s" % build_dir )
+			shutil.rmtree(build_dir)
+
 		if not os.path.exists(build_dir):
 			print("  * Mkdir: %s" % build_dir )
 			os.mkdir(build_dir)
