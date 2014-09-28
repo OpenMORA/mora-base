@@ -14,6 +14,7 @@ import string
 import subprocess
 import morautils
 import argparse
+import pprint
 
 #------   MAIN   -------
 def main():
@@ -34,14 +35,16 @@ def main():
 	distro = morautils.read_distro_file()
 
 	# Go thru all pkgs:
-	for pkg in distro:
+	final_msgs=[]
+	nPkgs = len(distro)
+	for pkg_idx, pkg in enumerate(distro):
 		print("# Processing pkg: " + pkg)
 		sPkgDir = os.path.normpath( pkgs_root+"/"+pkg )
 		try:
 			if not os.path.exists(sPkgDir):
 				# Non existing path ----------------------
 				if not args.all:
-					print("  * Pkg not found, skipping (rerun with --all to download it)")
+					final_msgs.append("* %s not found, skipping (rerun with --all to download it)" % pkg)
 				else:
 					print("  * Pkg not found, will clone it now (--all flag)")
 					# Git clone:
@@ -53,11 +56,11 @@ def main():
 						print("** ERROR** Last command failed!!")
 			else:
 				# Already existing path ----------------------
-				print("  * Pulling updates...")
+				#print("  * Pulling updates...")
 				# Git pull:
 				os.chdir(sPkgDir)
 				git_args = ["git", "pull"]
-				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
+				#print("  * Invoking: %s" % ' '.join(map(str, git_args)))
 				if 0!=subprocess.call(git_args):
 					print("** ERROR** Last command failed!!")
 
@@ -65,15 +68,24 @@ def main():
 			if 'git-version' in distro[pkg]:
 				os.chdir(sPkgDir)
 				sGitBranch = distro[pkg]['git-version']
-				print("  * Checking out '%s'" % sGitBranch)
+				#print("  * Checking out '%s'" % sGitBranch)
 				git_args = ["git", "checkout",sGitBranch]
 				print("  * Invoking: %s" % ' '.join(map(str, git_args)))
 				if 0!=subprocess.call(git_args):
 					print("** ERROR** Last command failed!!")
 		except Exception as e:
 			print("(ERROR: ",type(e),"): ", e)
-			
-			
+		morautils.progress(100.0*(pkg_idx+1.0)/(nPkgs))
+		print("")
+		
+	if (len(final_msgs)>0):
+		print("----------------------------------------------------------")
+		print("|            Messages generated during update:           |")
+		print("----------------------------------------------------------")
+		for s in final_msgs:
+			print(s)
+		print("")
+
 if __name__ == "__main__":
 	sys.exit(main())
 
