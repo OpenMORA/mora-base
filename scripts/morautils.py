@@ -41,7 +41,7 @@ import sys, math
 
 def progress(percent):
 	''' source: http://gunslingerc0de.wordpress.com/2010/08/13/python-command-line-progress-bar/ '''
-	width = 80
+	width = 74
 	marks = math.floor(width * (percent / 100.0))
 	spaces = math.floor(width - marks)
 
