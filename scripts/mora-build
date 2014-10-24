@@ -79,8 +79,9 @@ def main():
 		build_dir = os.path.normpath( pkg_dir + "/build" )
 
 		if args.rebuild:
-			print("  * FORCE REBULD: Removing previous contents in %s" % build_dir )
-			shutil.rmtree(build_dir)
+			print("  * FORCE REBUILD: Removing previous contents in %s" % build_dir )
+			if  os.path.exists(build_dir):
+				shutil.rmtree(build_dir)
 
 		if not os.path.exists(build_dir):
 			print("  * Mkdir: %s" % build_dir )
