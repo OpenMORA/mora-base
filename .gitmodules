@@ -1,7 +1,3 @@
-[submodule "core-moos"]
-	path = core-moos
-	url = https://github.com/OpenMORA/core-moos.git
-	branch = devel
 [submodule "essential-moos"]
 	path = essential-moos
 	url = https://github.com/OpenMORA/essential-moos.git
