@@ -2,3 +2,6 @@
 	path = essential-moos
 	url = https://github.com/OpenMORA/essential-moos.git
 	branch = devel
+[submodule "core-moos"]
+	path = core-moos
+	url = https://github.com/themoos/core-moos.git
