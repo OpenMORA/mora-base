@@ -4,4 +4,4 @@
 	branch = devel
 [submodule "core-moos"]
 	path = core-moos
-	url = https://github.com/themoos/core-moos.git
+	url = https://github.com/OpenMORA/core-moos.git
